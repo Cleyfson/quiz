@@ -98,3 +98,20 @@ def test_only_one_correct_choice_among_many():
     corrects = [c for c in q.choices if c.is_correct]
     assert len(corrects) == 1
     assert corrects[0].text == "c"
+
+@pytest.fixture
+def question_with_choices():
+    q = Question(title="Capital of France?", points=2)
+    q.add_choice("Paris", True)
+    q.add_choice("London", False)
+    q.add_choice("Berlin", False)
+    return q
+
+def test_fixture_question_has_three_choices(question_with_choices):
+    assert len(question_with_choices.choices) == 3
+
+
+def test_fixture_question_correct_choice_is_paris(question_with_choices):
+    corrects = [c for c in question_with_choices.choices if c.is_correct]
+    assert len(corrects) == 1
+    assert corrects[0].text == "Paris"
